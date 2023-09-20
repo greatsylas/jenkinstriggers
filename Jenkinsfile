@@ -1,10 +1,19 @@
 pipeline {
-    agent any
-    stages {
-        stage('Build') {
+    
+	agent any
+
+stages{
+        
+        stage('BUILD'){
             steps {
-                sh 'echo "Build completed successfully."'
+                sh 'mvn clean install -DskipTests'
+            }
+            post {
+                success {
+                    echo 'Now Archiving...'
+                    archiveArtifacts artifacts: '**/target/*.war'
+                }
             }
         }
-    }
-}
+	}
+}	
